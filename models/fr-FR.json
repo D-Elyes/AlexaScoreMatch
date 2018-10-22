@@ -1,0 +1,44 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "score match",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "donne_score",
+          "slots": [
+            {
+              "name": "date",
+              "type": "AMAZON.DATE"
+            },
+            {
+              "name": "pays",
+              "type": "AMAZON.Country"
+            }
+          ],
+          "samples": [
+            "où on est le match",
+            "combien ils ont fait",
+            "quel est le résultat du match",
+            "c'est quoi le score du match"
+          ]
+        }
+      ]
+    }
+  }
+}
