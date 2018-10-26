@@ -1,44 +1,152 @@
 {
-  "interactionModel": {
-    "languageModel": {
-      "invocationName": "score match",
-      "intents": [
-        {
-          "name": "AMAZON.CancelIntent",
-          "samples": []
+    "interactionModel": {
+        "languageModel": {
+            "invocationName": "score match",
+            "intents": [
+                {
+                    "name": "AMAZON.CancelIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.HelpIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.StopIntent",
+                    "samples": []
+                },
+                {
+                    "name": "AMAZON.NavigateHomeIntent",
+                    "samples": []
+                },
+                {
+                    "name": "donne_score",
+                    "slots": [
+                        {
+                            "name": "teamone",
+                            "type": "footTeam"
+                        },
+                        {
+                            "name": "teamtwo",
+                            "type": "footTeam"
+                        }
+                    ],
+                    "samples": [
+                        "où on est le match entre le {teamone} et {teamtwo} ",
+                        "combien {teamone} ont fait contre {teamtwo}",
+                        "quel est le résultat du match entre {teamone} et {teamtwo}",
+                        "c'est quoi le score du match entre {teamone} et {teamtwo}"
+                    ]
+                },
+                {
+                    "name": "score_oneTeam",
+                    "slots": [
+                        {
+                            "name": "team",
+                            "type": "footTeam"
+                        }
+                    ],
+                    "samples": [
+                        "Quel est le score de {team} ",
+                        "Ils font combien le {team}",
+                        "c'est quoi le score pour {team}"
+                    ]
+                },
+                {
+                    "name": "score_noTeam",
+                    "slots": [
+                        {
+                            "name": "team",
+                            "type": "footTeam",
+                            "samples": [
+                                "Pour {team}",
+                                "Pour {teamone} vs {teamtwo}"
+                            ]
+                        },
+                        {
+                            "name": "teamone",
+                            "type": "footTeam"
+                        },
+                        {
+                            "name": "teamtwo",
+                            "type": "footTeam"
+                        }
+                    ],
+                    "samples": [
+                        "Donne moi le score"
+                    ]
+                }
+            ],
+            "types": [
+                {
+                    "name": "footTeam",
+                    "values": [
+                        {
+                            "name": {
+                                "value": "Marseille"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "PSG"
+                            }
+                        }
+                    ]
+                }
+            ]
         },
-        {
-          "name": "AMAZON.HelpIntent",
-          "samples": []
+        "dialog": {
+            "intents": [
+                {
+                    "name": "score_noTeam",
+                    "confirmationRequired": false,
+                    "prompts": {},
+                    "slots": [
+                        {
+                            "name": "team",
+                            "type": "footTeam",
+                            "confirmationRequired": false,
+                            "elicitationRequired": true,
+                            "prompts": {
+                                "elicitation": "Elicit.Slot.699730700604.110350136897"
+                            }
+                        },
+                        {
+                            "name": "teamone",
+                            "type": "footTeam",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        },
+                        {
+                            "name": "teamtwo",
+                            "type": "footTeam",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
+                        }
+                    ]
+                }
+            ]
         },
-        {
-          "name": "AMAZON.StopIntent",
-          "samples": []
-        },
-        {
-          "name": "AMAZON.NavigateHomeIntent",
-          "samples": []
-        },
-        {
-          "name": "donne_score",
-          "slots": [
+        "prompts": [
             {
-              "name": "date",
-              "type": "AMAZON.DATE"
-            },
-            {
-              "name": "pays",
-              "type": "AMAZON.Country"
+                "id": "Elicit.Slot.699730700604.110350136897",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "De quel match vous parlez ?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Pour quel équipe ?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "Pour quel match ?"
+                    }
+                ]
             }
-          ],
-          "samples": [
-            "où on est le match",
-            "combien ils ont fait",
-            "quel est le résultat du match",
-            "c'est quoi le score du match"
-          ]
-        }
-      ]
+        ]
     }
   }
-}

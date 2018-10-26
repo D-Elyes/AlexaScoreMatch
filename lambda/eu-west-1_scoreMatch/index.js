@@ -17,40 +17,52 @@ const greetings = [
 
 //=========================================================================================================================================
 //=========================================================================================================================================
+function buildHandlers(event) {
+    var handlers = {
+        'LaunchRequest': function () {
+            const greetingArr = greetings;
+            const greetingIndex = Math.floor(Math.random() * greetingArr.length);
+            this.emit(':ask',greetingArr[greetingIndex]);
+        },
+        'donne_score': function() {
+            const team1  = event.request.intent.slots.teamone.value;
+            const team2  = event.request.intent.slots.teamtwo.value;
+    
+            this.emit(':tell',team1 +" vs "+team2)
+        },
+        'score_oneTeam' : function(){
+            const team  = event.request.intent.slots.team.value;
+            this.emit(':tell', "Voici le score de "+ team)
+        },
+        'score_noTeam' : function(){
 
-const handlers = {
-    'LaunchRequest': function () {
-        const greetingArr = greetings;
-        const greetingIndex = Math.floor(Math.random() * greetingArr.length);
-        this.emit(':ask',greetingArr[greetingIndex]);
-    },
-    'donne_score': function() {
-        //const team1  = event.request.intent.slots.teamone.value;
-        //const team2  = event.request.intent.slots.teamtwo.value;
+            this.emit(':tell', "Voici le score de ")
+        },  
+        'AMAZON.HelpIntent': function () {
+            const speechOutput = HELP_MESSAGE;
+            const reprompt = HELP_REPROMPT;
+    
+            this.response.speak(speechOutput).listen(reprompt);
+            this.emit(':responseReady');
+        },
+        'AMAZON.CancelIntent': function () {
+            this.response.speak(STOP_MESSAGE);
+            this.emit(':responseReady');
+        },
+        'AMAZON.StopIntent': function () {
+            this.response.speak(STOP_MESSAGE);
+            this.emit(':responseReady');
+        },
+    };
 
-        this.emit(':responseReady')
-    },
-    'AMAZON.HelpIntent': function () {
-        const speechOutput = HELP_MESSAGE;
-        const reprompt = HELP_REPROMPT;
+    return handlers
+}
 
-        this.response.speak(speechOutput).listen(reprompt);
-        this.emit(':responseReady');
-    },
-    'AMAZON.CancelIntent': function () {
-        this.response.speak(STOP_MESSAGE);
-        this.emit(':responseReady');
-    },
-    'AMAZON.StopIntent': function () {
-        this.response.speak(STOP_MESSAGE);
-        this.emit(':responseReady');
-    },
-};
 
 
 exports.handler = function (event, context, callback) {
     const alexa = Alexa.handler(event, context, callback);
     alexa.APP_ID = APP_ID;
-    alexa.registerHandlers(handlers);
+    alexa.registerHandlers(buildHandlers(event));
     alexa.execute();
 };
