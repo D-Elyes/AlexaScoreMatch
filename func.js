@@ -55,3 +55,8 @@ function getMatchWinnerString(match){
         return (winnerTeamName +" et " + looserTeamName + " ont fait match nul " + winnerTeamScore + "a" + looserTeamScore )
     }
 }
+
+function createMatchesSortedByDateJSON(fetchedData){
+    var parsedJson = JSON.parse(fetchedData);
+    return parsedJson.matches.sort(function(a,b){return new Date(a.lastUpdated).getTime()- new Date(b.lastUpdated).getTime()});
+}
