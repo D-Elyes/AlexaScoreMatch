@@ -10,9 +10,9 @@ const HELP_REPROMPT = 'De quel match?';
 const STOP_MESSAGE = 'Au revoir!';
 
 const greetings = [
-    'Bonjour, comment puis je vous aider?',
-    'Salut, qu\'est ce que je peux faire pour vous?',
-    'Bonjour, que souhaitez vous faire?',
+    'Bonjour, quel match vous intéresse?',
+    'Salut, quel score vous voulez connaitre?',
+    'Bonjour, c\'est la journée ligue 1, quel score voulez vous connaitre?',
 ];
 
 //=========================================================================================================================================
@@ -25,18 +25,42 @@ function buildHandlers(event) {
             this.emit(':ask',greetingArr[greetingIndex]);
         },
         'donne_score': function() {
-            const team1  = event.request.intent.slots.teamone.value;
-            const team2  = event.request.intent.slots.teamtwo.value;
+           
+             
+                const team1  = event.request.intent.slots.teamone.value;
+                const team2  = event.request.intent.slots.teamtwo.value;
     
-            this.emit(':tell',team1 +" vs "+team2)
+                this.emit(':tell',team1 +" vs "+team2)
+             
+            
         },
         'score_oneTeam' : function(){
-            const team  = event.request.intent.slots.team.value;
+            if (event.request.dialogState != "COMPLETED"){
+                this.emit(":delegate");
+             } else 
+             {
+                const team  = event.request.intent.slots.team.value;
             this.emit(':tell', "Voici le score de "+ team)
+             }
+            
         },
         'score_noTeam' : function(){
+            //const updatedIntent = handlerInput.requestEnvelope.request.intent;
+            //if(event.request.dialogState === 'STARTED')
+            if (event.request.dialogState != "COMPLETED"){
+                this.emit(":delegate");
+             } else {
+                 // Once dialoState is completed, do your thing.
+                 const team  = event.request.intent.slots.team.value;
 
-            this.emit(':tell', "Voici le score de ")
+                 this.emit(':tell', "no team : Voici le score de "+team)
+             }
+            
+        },
+        'scoreDate': function()   {
+            const date  = event.request.intent.slots.date.value;
+
+            this.emit(":tell","Le score de "+date)
         },  
         'AMAZON.HelpIntent': function () {
             const speechOutput = HELP_MESSAGE;

@@ -43,24 +43,10 @@
                     "slots": [
                         {
                             "name": "team",
-                            "type": "footTeam"
-                        }
-                    ],
-                    "samples": [
-                        "Quel est le score de {team} ",
-                        "Ils font combien le {team}",
-                        "c'est quoi le score pour {team}"
-                    ]
-                },
-                {
-                    "name": "score_noTeam",
-                    "slots": [
-                        {
-                            "name": "team",
                             "type": "footTeam",
                             "samples": [
-                                "Pour {team}",
-                                "Pour {teamone} vs {teamtwo}"
+                                "Pour {teamone} vs {teamtwo}",
+                                "Pour {team}"
                             ]
                         },
                         {
@@ -73,7 +59,21 @@
                         }
                     ],
                     "samples": [
-                        "Donne moi le score"
+                        "Quel est le score de {team} ",
+                        "Ils font combien le {team}",
+                        "c'est quoi le score pour {team}"
+                    ]
+                },
+                {
+                    "name": "scoreDate",
+                    "slots": [
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE"
+                        }
+                    ],
+                    "samples": [
+                        "C'est quoi les scores de  {date}"
                     ]
                 }
             ],
@@ -83,12 +83,237 @@
                     "values": [
                         {
                             "name": {
-                                "value": "Marseille"
+                                "value": "\tFootball Club de Metz"
                             }
                         },
                         {
                             "name": {
-                                "value": "PSG"
+                                "value": "\tFC Metz"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tMetz"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tAS Monaco"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tMonaco"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tAS Saint-Etienne"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tSaint-Eteinne"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tAmiens SC"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tAmiens"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tAngers SCO"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tAngers"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tDijon Football Côte d'Or"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tDijon FC"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tDijon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tEn Avant de Guingamps"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tGuingamps"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tEspérence Sportive Troyes Aube Champagne"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tTroyes"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tFC Girondins de Bordeaux"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tFC Bordeaux"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tBordeaux"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tFC Nantes"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tNantes"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tLOSC"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tLille"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tMontpellier"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tMHSC"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tMontpellier Héreut SC"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tOGC Nice"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tNice"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tOL"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tLyon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tOlympique Lyon"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tOlympique Lyonnais"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tOM"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tOlympique Marseille"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tOlympique de Marseille"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tParis SG"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tPSG"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tRacing Club Strasbourg Alsace"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tStrasbourg"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tStade Malherbe Caen"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tCaen"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tStade Rennais Football Club"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tRennes"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tToulouse Football Club"
+                            }
+                        },
+                        {
+                            "name": {
+                                "value": "\tToulouse"
                             }
                         }
                     ]
@@ -98,7 +323,7 @@
         "dialog": {
             "intents": [
                 {
-                    "name": "score_noTeam",
+                    "name": "score_oneTeam",
                     "confirmationRequired": false,
                     "prompts": {},
                     "slots": [
@@ -108,7 +333,7 @@
                             "confirmationRequired": false,
                             "elicitationRequired": true,
                             "prompts": {
-                                "elicitation": "Elicit.Slot.699730700604.110350136897"
+                                "elicitation": "Elicit.Slot.1472273142066.642650697707"
                             }
                         },
                         {
@@ -146,7 +371,16 @@
                         "value": "Pour quel match ?"
                     }
                 ]
+            },
+            {
+                "id": "Elicit.Slot.1472273142066.642650697707",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "De quel match vous parlez ?"
+                    }
+                ]
             }
         ]
     }
-  }
+}
