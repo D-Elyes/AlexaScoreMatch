@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "alexa-sdk": "^1.0.25",
+    "amazon-date-parser": "^0.2.0",
     "request": "^2.88.0"
   }
 }

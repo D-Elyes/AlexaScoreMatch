@@ -104,26 +104,45 @@ module.exports = {
             var winnerTeamScore = match.score.fullTime.awayTeam
             var looserTeamName = match.homeTeam.name
             var looserTeamScore = match.score.fullTime.homeTeam
-            return (winnerTeamName +" a gagné " + winnerTeamScore + " a " + looserTeamScore + " contre " + looserTeamName)
+            if(winnerTeamScore == null || looserTeamScore ==null)
+            {
+                return (winnerTeamName +" et " + looserTeamName + " ont pas encore joué" )
+            }
+            else
+              return (winnerTeamName +" a gagné " + winnerTeamScore + " à " + looserTeamScore + " contre " + looserTeamName)
         }else if(match.score.winner == "HOME_TEAM"){
             var winnerTeamName = match.homeTeam.name
             var winnerTeamScore = match.score.fullTime.homeTeam
             var looserTeamName = match.awayTeam.name
             var looserTeamScore = match.score.fullTime.awayTeam
-            return (winnerTeamName +" a gagné " + winnerTeamScore + " a " + looserTeamScore + " contre " + looserTeamName)
+            if(winnerTeamScore == null || looserTeamScore ==null)
+            {
+                return (winnerTeamName +" et " + looserTeamName + " ont pas encore joué" )
+            }
+            else
+                return (winnerTeamName +" a gagné " + winnerTeamScore + " à " + looserTeamScore + " contre " + looserTeamName)
         }else{
             var winnerTeamName = match.homeTeam.name
             var winnerTeamScore = match.score.fullTime.homeTeam
             var looserTeamName = match.awayTeam.name
             var looserTeamScore = match.score.fullTime.awayTeam
-            return (winnerTeamName +" et " + looserTeamName + " ont fait match nul " + winnerTeamScore + " a " + looserTeamScore )
+            if(winnerTeamScore == null || looserTeamScore ==null)
+            {
+                return (winnerTeamName +" et " + looserTeamName + " ont pas encore joué" )
+            }
+            else
+                return (winnerTeamName +" et " + looserTeamName + " ont fait match nul " + winnerTeamScore + " à " + looserTeamScore )
         }
     },
     createMatchesSortedByDateJSON : function(fetchedData){
         var parsedJson = JSON.parse(fetchedData);
         return parsedJson.matches.sort(function(a,b){return new Date(b.lastUpdated).getTime()- new Date(a.lastUpdated).getTime()});
     },
-
+    getFirstDateOfWeek : function(week,year){
+        var d = new Date("Jan 01, " + year + " 01:00:00");
+        var w = d.getTime() + 604800000 * (week - 1);
+        return new Date(w);
+    },
      getDateOfWeek : function(week, year) {
         var day = (1 + (week - 1) * 7); // 1st of January + 7 days for each week
     

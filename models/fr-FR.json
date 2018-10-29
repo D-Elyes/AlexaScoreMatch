@@ -45,6 +45,7 @@
                             "name": "team",
                             "type": "footTeam",
                             "samples": [
+                                "de {team}",
                                 "Pour {teamone} vs {teamtwo}",
                                 "Pour {team}"
                             ]
@@ -65,7 +66,7 @@
                     ]
                 },
                 {
-                    "name": "scoreDate",
+                    "name": "scoreWeek",
                     "slots": [
                         {
                             "name": "date",
@@ -73,7 +74,8 @@
                         }
                     ],
                     "samples": [
-                        "C'est quoi les scores de  {date}"
+                        "c'est quoi les scores de {date}",
+                        "donne mois les scores de {date}"
                     ]
                 }
             ],
@@ -378,6 +380,19 @@
                     {
                         "type": "PlainText",
                         "value": "De quel match vous parlez ?"
+                    }
+                ]
+            },
+            {
+                "id": "Elicit.Slot.508543742603.874234723651",
+                "variations": [
+                    {
+                        "type": "PlainText",
+                        "value": "pour quel équipe?"
+                    },
+                    {
+                        "type": "PlainText",
+                        "value": "de quel équipe ?"
                     }
                 ]
             }

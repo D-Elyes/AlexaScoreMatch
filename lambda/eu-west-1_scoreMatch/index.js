@@ -3,6 +3,7 @@
 const Alexa = require('alexa-sdk');
 const request = require('request'); 
 const Helpers = require('func.js');
+const AmazonDateParser = require('amazon-date-parser');
 
 const APP_ID = "amzn1.ask.skill.936453a8-3e7c-4edc-8bbf-df5b7688a9c3"
 
@@ -75,7 +76,34 @@ function buildHandlers(event) {
              }
             
         },
-        'scoreDate': function()   {
+        'scoreWeek' : function(){
+            var date = new AmazonDateParser(event.request.intent.slots.date.value);
+            var dateDebut = date.startDate.getFullYear() + "-" +("0" + (date.startDate.getMonth() + 1)).slice(-2)+ "-"+("0" + date.startDate.getDate()).slice(-2);
+            var dateFin = date.endDate.getFullYear() + "-"+("0" +(date.endDate.getMonth() + 1)).slice(-2)+"-"+("0" + date.endDate.getDate()).slice(-2);
+                
+            var options = {
+                    url: 'https://api.football-data.org/v2/matches?competitions=2015&dateFrom='+dateDebut+"&dateTo="+dateFin,
+                    headers:{
+                        'X-Auth-Token' : '090168ae007648df9b7e583867c8cbef'
+                    }
+                };  
+               
+                request.get(options, (error, response, body)=> {
+                    console.log('error:', error); // Print the error if one occurred
+                    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+                    var matches = JSON.parse(body);
+                    var response = ""
+                    for(var i =0; i< matches.matches.length;i++)
+                    {
+                        response += Helpers.getMatchWinnerString(matches.matches[i]) +"<break time='1s'/>\n";
+                    }
+                    
+                    this.emit(':tell',response)
+                })    
+            
+        },
+        
+        /*'scoreDate': function()   {
             if(event.request.dialogState !== "COMPLETED" && !event.request.intent.slots.team.value)
             {
                 this.emit(":delegate");
@@ -88,7 +116,7 @@ function buildHandlers(event) {
                 this.emit(":tell","Le score de "+team+" pour le "+date)
             }
           
-        },  
+    }*/  
         'AMAZON.HelpIntent': function () {
             const speechOutput = HELP_MESSAGE;
             const reprompt = HELP_REPROMPT;
