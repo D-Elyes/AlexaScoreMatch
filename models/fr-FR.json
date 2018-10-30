@@ -9,11 +9,17 @@
                 },
                 {
                     "name": "AMAZON.HelpIntent",
-                    "samples": []
+                    "samples": [
+                        "comment utiliser la skill"
+                    ]
                 },
                 {
                     "name": "AMAZON.StopIntent",
-                    "samples": []
+                    "samples": [
+                        "arrêtes toi",
+                        "au revoir",
+                        "stop"
+                    ]
                 },
                 {
                     "name": "AMAZON.NavigateHomeIntent",
@@ -29,9 +35,20 @@
                         {
                             "name": "teamtwo",
                             "type": "footTeam"
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE"
                         }
                     ],
                     "samples": [
+                        "Ils ont fait combien {teamone} contre {teamtwo} {date}",
+                        "Quel est le score du {date} entre {teamone} et {teamtwo}",
+                        "de {teamone} contre {teamtwo}",
+                        "celui de {teamone} contre {teamtwo}",
+                        "oui celui du {teamone} contre {teamtwo}",
+                        "oui {teamone} contre {teamtwo}",
+                        "oui pour {teamone} contre {teamtwo}",
                         "où on est le match entre le {teamone} et {teamtwo} ",
                         "combien {teamone} ont fait contre {teamtwo}",
                         "quel est le résultat du match entre {teamone} et {teamtwo}",
@@ -57,9 +74,20 @@
                         {
                             "name": "teamtwo",
                             "type": "footTeam"
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE"
                         }
                     ],
                     "samples": [
+                        "Ils ont fait combien {team} {date}",
+                        "quel est le score de {team} pour {date}",
+                        "de {team}",
+                        "celui de {team}",
+                        "oui de {team}",
+                        "oui celui de {team}",
+                        "donne moi le score de {team}",
                         "Quel est le score de {team} ",
                         "Ils font combien le {team}",
                         "c'est quoi le score pour {team}"
@@ -74,6 +102,9 @@
                         }
                     ],
                     "samples": [
+                        "de {date}",
+                        "celui de {date}",
+                        "oui celui de {date}",
                         "c'est quoi les scores de {date}",
                         "donne mois les scores de {date}"
                     ]
@@ -351,10 +382,18 @@
                             "confirmationRequired": false,
                             "elicitationRequired": false,
                             "prompts": {}
+                        },
+                        {
+                            "name": "date",
+                            "type": "AMAZON.DATE",
+                            "confirmationRequired": false,
+                            "elicitationRequired": false,
+                            "prompts": {}
                         }
                     ]
                 }
-            ]
+            ],
+            "delegationStrategy": "SKILL_RESPONSE"
         },
         "prompts": [
             {

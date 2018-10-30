@@ -8,7 +8,9 @@ const AmazonDateParser = require('amazon-date-parser');
 const APP_ID = "amzn1.ask.skill.936453a8-3e7c-4edc-8bbf-df5b7688a9c3"
 
 const SKILL_NAME = 'Score Match';
-const HELP_MESSAGE = 'Je peux vous donner le score d\'un match. De quel match voulez-vous connaitre le résultat? ';
+const HELP_MESSAGE = "Pour connaitre le dernier résultat d'une équipe vous pouvez demandez : donne moi le score du PSG<break time='1s'/>"
++"Ou bien : C'est quoi le score du match entre PSG et Marseille<break time='1s'/>"+
+"Vous pouvez aussi demandé : C'est quoi les scores de la semaine derniére";
 const HELP_REPROMPT = 'De quel match?';
 const STOP_MESSAGE = 'Au revoir!';
 
@@ -25,29 +27,65 @@ function buildHandlers(event) {
         'LaunchRequest': function () {
             const greetingArr = greetings;
             const greetingIndex = Math.floor(Math.random() * greetingArr.length);
-            this.emit(':ask',greetingArr[greetingIndex]);
+            this.emit(':ask',greetingArr[greetingIndex]+HELP_MESSAGE);
         },
         'donne_score': function() {  
                 const team1  = event.request.intent.slots.teamone.value;
                 const team2  = event.request.intent.slots.teamtwo.value;
                 const idTeam1 = Helpers.getTeamId(team1)
                 const idTeam2 = Helpers.getTeamId(team2)
-                var options = {
-                    url: 'https://api.football-data.org/v2/teams/'+idTeam1+'/matches/',
-                    headers:{
-                        'X-Auth-Token' : '090168ae007648df9b7e583867c8cbef'
+                const dateSlot = event.request.intent.slots.date.value;
+                if(idTeam1 == "error" || idTeam2 =="error")
+                {
+                    this.emit(":ask","Désolé je ne connais que les équipe de la ligue 1 <break time='1s'/>Voulez vous connaitre le résultat d'un autre match?")
+                }
+                else
+                {
+                    var url = ""
+                    if(dateSlot)
+                    {
+                        
+                        var date = new AmazonDateParser(dateSlot);
+                        var dateDebut = date.startDate.getFullYear() + "-" +("0" + (date.startDate.getMonth() + 1)).slice(-2)+ "-"+("0" + date.startDate.getDate()).slice(-2);
+                        var dateFin = date.endDate.getFullYear() + "-"+("0" +(date.endDate.getMonth() + 1)).slice(-2)+"-"+("0" + (date.endDate.getDate()+1)).slice(-2);
+                        url = 'https://api.football-data.org/v2/teams/'+idTeam1+'/matches?dateFrom='+dateDebut+'&dateTo='+dateFin;
                     }
-                };
-                request.get(options, (error, response, body)=> {
-                    console.log('error:', error); // Print the error if one occurred
-                    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-                    //console.log('body:', body); // Print the body
-
-                    var matches = Helpers.createMatchesSortedByDateJSON(body);
-                    var match = Helpers.getFirstMatchBetweenTwoTeam(matches,idTeam1,idTeam2);
-                    var response = Helpers.getMatchWinnerString(match);
-                    this.emit(':tell',response)
-                })
+                    else{
+                        url = 'https://api.football-data.org/v2/teams/'+idTeam1+'/matches/'
+                    }
+                    var options = {
+                        url: url,
+                        headers:{
+                            'X-Auth-Token' : '090168ae007648df9b7e583867c8cbef'
+                        }
+                    };
+                    request.get(options, (error, response, body)=> {
+                            var matches = Helpers.createMatchesSortedByDateJSON(body);
+                            if(!matches)
+                        {
+                            var response ="Je n'ai trouvé aucun match<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                            this.emit(':ask',response)
+                        }
+                        else
+                        {
+                            var match = Helpers.getFirstMatchBetweenTwoTeam(matches,idTeam1,idTeam2);
+                            if(!match)
+                            {
+                                var response ="Je n'ai trouvé aucun match<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                                this.emit(':ask',response)
+                            }
+                            else
+                            {
+                                var response =  Helpers.getMatchWinnerString(match);
+                                response += "<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                                this.emit(':ask',response)
+                            }
+                        }
+                      
+                        
+                    })
+                }
+               
         },
         'score_oneTeam' : function(){
             if (event.request.dialogState !== "COMPLETED" && !event.request.intent.slots.team.value){
@@ -57,23 +95,60 @@ function buildHandlers(event) {
              {
                 const team  = event.request.intent.slots.team.value;
                 const idTeam = Helpers.getTeamId(team);
+                const dateSlot = event.request.intent.slots.date.value;
+                if(idTeam == "error")
+                {
+                    this.emit(":ask","Désolé je ne connais que les équipe de la ligue 1 <break time='1s'/>Voulez vous connaitre le résultat d'un autre match?")
+                }
+                else
+                {
+                    var url = ""
+                    if(dateSlot)
+                    {
+                        
+                        var date = new AmazonDateParser(dateSlot);
+                        var dateDebut = date.startDate.getFullYear() + "-" +("0" + (date.startDate.getMonth() + 1)).slice(-2)+ "-"+("0" + date.startDate.getDate()).slice(-2);
+                        var dateFin = date.endDate.getFullYear() + "-"+("0" +(date.endDate.getMonth() + 1)).slice(-2)+"-"+("0" + (date.endDate.getDate()+1)).slice(-2);
+                        url = 'https://api.football-data.org/v2/teams/'+idTeam+'/matches?dateFrom='+dateDebut+'&dateTo='+dateFin;
+                    }
+                    else{
+                        url = 'https://api.football-data.org/v2/teams/'+idTeam+'/matches/'
+                    }
+
                 var options = {
-                    url: 'https://api.football-data.org/v2/teams/'+idTeam+'/matches/',
+                    url: url,
                     headers:{
                         'X-Auth-Token' : '090168ae007648df9b7e583867c8cbef'
                     }
                 };
                 request.get(options, (error, response, body)=> {
-                    console.log('error:', error); // Print the error if one occurred
-                    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
-                    //console.log('body:', body); // Print the body
-
+         
                     var matches = Helpers.createMatchesSortedByDateJSON(body);
-                    var response = Helpers.getMatchWinnerString(matches[0]);
-                    this.emit(':tell', response)
+                    if(!matches)
+                    {
+                        var response ="Je n'ai trouvé aucun match<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                        this.emit(':ask',response)
+                    }
+                    else
+                    {
+                        var match = Helpers.getFirstMatchOfOneTeam(matches,idTeam);
+                        if(!match)
+                        {
+                            var response ="Je n'ai trouvé aucun match<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                            this.emit(':ask',response)
+                        }
+                        else
+                        {
+                        var response = Helpers.getMatchWinnerString(match);
+                        response += "<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                        this.emit(':ask', response)
+                        }
+                    }
+                   
                 })
                 
              }
+            }
             
         },
         'scoreWeek' : function(){
@@ -89,16 +164,16 @@ function buildHandlers(event) {
                 };  
                
                 request.get(options, (error, response, body)=> {
-                    console.log('error:', error); // Print the error if one occurred
-                    console.log('statusCode:', response && response.statusCode); // Print the response status code if a response was received
+                
                     var matches = JSON.parse(body);
                     var response = ""
                     for(var i =0; i< matches.matches.length;i++)
                     {
                         response += Helpers.getMatchWinnerString(matches.matches[i]) +"<break time='1s'/>\n";
                     }
+                    response+="Voulez vous connaitre le résultat d'un autre match?"
                     
-                    this.emit(':tell',response)
+                    this.emit(':ask',response)
                 })    
             
         },
