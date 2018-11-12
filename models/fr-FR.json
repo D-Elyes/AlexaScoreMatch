@@ -16,6 +16,10 @@
                 {
                     "name": "AMAZON.StopIntent",
                     "samples": [
+                        "Annule",
+                        "Quitte",
+                        "arrête",
+                        "Non",
                         "arrêtes toi",
                         "au revoir",
                         "stop"
@@ -43,7 +47,6 @@
                     ],
                     "samples": [
                         "Ils ont fait combien {teamone} contre {teamtwo} {date}",
-                        "Quel est le score du {date} entre {teamone} et {teamtwo}",
                         "de {teamone} contre {teamtwo}",
                         "celui de {teamone} contre {teamtwo}",
                         "oui celui du {teamone} contre {teamtwo}",
@@ -116,237 +119,207 @@
                     "values": [
                         {
                             "name": {
-                                "value": "\tFootball Club de Metz"
+                                "value": "Paris Saint Germain"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tFC Metz"
+                                "value": "Football Club de Metz"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tMetz"
+                                "value": "FC Metz"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tAS Monaco"
+                                "value": "Metz"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tMonaco"
+                                "value": "AS Monaco"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tAS Saint-Etienne"
+                                "value": "Monaco"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tSaint-Eteinne"
+                                "value": "AS Saint-Etienne"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tAmiens SC"
+                                "value": "Saint-Eteinne"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tAmiens"
+                                "value": "Amiens SC"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tAngers SCO"
+                                "value": "Amiens"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tAngers"
+                                "value": "Angers"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tDijon Football Côte d'Or"
+                                "value": "Dijon Football Côte d'Or"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tDijon FC"
+                                "value": "Dijon FC"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tDijon"
+                                "value": "Dijon"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tEn Avant de Guingamps"
+                                "value": "En Avant de Guingamps"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tGuingamps"
+                                "value": "Guingamps"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tEspérence Sportive Troyes Aube Champagne"
+                                "value": "Espérence Sportive Troyes Aube Champagne"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tTroyes"
+                                "value": "Troyes"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tFC Girondins de Bordeaux"
+                                "value": "FC Girondins de Bordeaux"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tFC Bordeaux"
+                                "value": "FC Bordeaux"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tBordeaux"
+                                "value": "Bordeaux"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tFC Nantes"
+                                "value": "FC Nantes"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tNantes"
+                                "value": "Nantes"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tLOSC"
+                                "value": "Lille"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tLille"
+                                "value": "Montpellier"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tMontpellier"
+                                "value": "Montpellier Héreut SC"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tMHSC"
+                                "value": "Nice"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tMontpellier Héreut SC"
+                                "value": "Lyon"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tOGC Nice"
+                                "value": "Olympique Lyon"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tNice"
+                                "value": "Olympique Lyonnais"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tOL"
+                                "value": "Olympique Marseille"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tLyon"
+                                "value": "Olympique de Marseille"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tOlympique Lyon"
+                                "value": "Paris SG"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tOlympique Lyonnais"
+                                "value": "Racing Club Strasbourg Alsace"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tOM"
+                                "value": "Strasbourg"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tOlympique Marseille"
+                                "value": "Stade Malherbe Caen"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tOlympique de Marseille"
+                                "value": "Caen"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tParis SG"
+                                "value": "Stade Rennais Football Club"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tPSG"
+                                "value": "Rennes"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tRacing Club Strasbourg Alsace"
+                                "value": "Toulouse Football Club"
                             }
                         },
                         {
                             "name": {
-                                "value": "\tStrasbourg"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "\tStade Malherbe Caen"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "\tCaen"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "\tStade Rennais Football Club"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "\tRennes"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "\tToulouse Football Club"
-                            }
-                        },
-                        {
-                            "name": {
-                                "value": "\tToulouse"
+                                "value": "Toulouse"
                             }
                         }
                     ]
@@ -392,8 +365,7 @@
                         }
                     ]
                 }
-            ],
-            "delegationStrategy": "SKILL_RESPONSE"
+            ]
         },
         "prompts": [
             {

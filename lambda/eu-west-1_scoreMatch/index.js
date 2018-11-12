@@ -8,7 +8,7 @@ const AmazonDateParser = require('amazon-date-parser');
 const APP_ID = "amzn1.ask.skill.936453a8-3e7c-4edc-8bbf-df5b7688a9c3"
 
 const SKILL_NAME = 'Score Match';
-const HELP_MESSAGE = "Pour connaitre le dernier résultat d'une équipe vous pouvez demandez : donne moi le score du PSG<break time='1s'/>"
+const HELP_MESSAGE = "Pour connaitre le dernier résultat d'un match vous pouvez demandez : donne moi le score du PSG<break time='1s'/>"
 +"Ou bien : C'est quoi le score du match entre PSG et Marseille<break time='1s'/>"+
 "Vous pouvez aussi demandé : C'est quoi les scores de la semaine derniére";
 const HELP_REPROMPT = 'De quel match?';
@@ -32,7 +32,13 @@ function buildHandlers(event) {
         'donne_score': function() {  
                 const team1  = event.request.intent.slots.teamone.value;
                 const team2  = event.request.intent.slots.teamtwo.value;
-                const idTeam1 = Helpers.getTeamId(team1)
+                if(!team1 || !team2)
+                {
+                    this.emit(":ask","Désolé je n'ai pas compris les noms des équipes")
+                }
+                else
+                {
+                    const idTeam1 = Helpers.getTeamId(team1)
                 const idTeam2 = Helpers.getTeamId(team2)
                 const dateSlot = event.request.intent.slots.date.value;
                 if(idTeam1 == "error" || idTeam2 =="error")
@@ -63,7 +69,7 @@ function buildHandlers(event) {
                             var matches = Helpers.createMatchesSortedByDateJSON(body);
                             if(!matches)
                         {
-                            var response ="Je n'ai trouvé aucun match<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                            var response ="Je n'ai trouvé aucun match<break time='1s'/> Voulez vous connaitre le résultat d'un autre match?"
                             this.emit(':ask',response)
                         }
                         else
@@ -71,19 +77,21 @@ function buildHandlers(event) {
                             var match = Helpers.getFirstMatchBetweenTwoTeam(matches,idTeam1,idTeam2);
                             if(!match)
                             {
-                                var response ="Je n'ai trouvé aucun match<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                                var response ="Je n'ai trouvé aucun match<break time='1s'/> Voulez vous connaitre le résultat d'un autre match?"
                                 this.emit(':ask',response)
                             }
                             else
                             {
                                 var response =  Helpers.getMatchWinnerString(match);
-                                response += "<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                                response += "<break time='1s'/> Voulez vous connaitre le résultat d'un autre match?"
                                 this.emit(':ask',response)
                             }
                         }
                       
                         
                     })
+                }
+                
                 }
                
         },
@@ -94,7 +102,13 @@ function buildHandlers(event) {
              else 
              {
                 const team  = event.request.intent.slots.team.value;
-                const idTeam = Helpers.getTeamId(team);
+                if(!team)
+                {
+                    this.emit(":ask","Désolé je n'ai pas compris le nom de l'équipes")
+                }
+                else
+                {
+                    const idTeam = Helpers.getTeamId(team);
                 const dateSlot = event.request.intent.slots.date.value;
                 if(idTeam == "error")
                 {
@@ -126,7 +140,7 @@ function buildHandlers(event) {
                     var matches = Helpers.createMatchesSortedByDateJSON(body);
                     if(!matches)
                     {
-                        var response ="Je n'ai trouvé aucun match<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                        var response ="Je n'ai trouvé aucun match <break time='1s'/> Voulez vous connaitre le résultat d'un autre match?"
                         this.emit(':ask',response)
                     }
                     else
@@ -134,13 +148,13 @@ function buildHandlers(event) {
                         var match = Helpers.getFirstMatchOfOneTeam(matches,idTeam);
                         if(!match)
                         {
-                            var response ="Je n'ai trouvé aucun match<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                            var response ="Je n'ai trouvé aucun match <break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
                             this.emit(':ask',response)
                         }
                         else
                         {
                         var response = Helpers.getMatchWinnerString(match);
-                        response += "<break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
+                        response += " <break time='1s'/>Voulez vous connaitre le résultat d'un autre match?"
                         this.emit(':ask', response)
                         }
                     }
@@ -148,6 +162,8 @@ function buildHandlers(event) {
                 })
                 
              }
+                }
+                
             }
             
         },
@@ -167,31 +183,26 @@ function buildHandlers(event) {
                 
                     var matches = JSON.parse(body);
                     var response = ""
-                    for(var i =0; i< matches.matches.length;i++)
+                    if( matches.matches.length==0)
                     {
-                        response += Helpers.getMatchWinnerString(matches.matches[i]) +"<break time='1s'/>\n";
+                        response += "Je n'ai trouvé aucun match pour "+event.request.intent.slots.date.value+" <break time='1s'/> Voulez vous connaitre le résultat d'un autre match? "
+                        this.emit(':ask',response)
                     }
-                    response+="Voulez vous connaitre le résultat d'un autre match?"
-                    
-                    this.emit(':ask',response)
+                    else
+                    {
+                        for(var i =0; i< matches.matches.length;i++)
+                        {
+                            response += Helpers.getMatchWinnerString(matches.matches[i]) +"; <break time='1s'/> \n";
+                        }
+                        response+="Voulez vous connaitre le résultat d'un autre match?"
+                        
+                        this.emit(':ask',response)
+                    }
+                   
                 })    
             
         },
         
-        /*'scoreDate': function()   {
-            if(event.request.dialogState !== "COMPLETED" && !event.request.intent.slots.team.value)
-            {
-                this.emit(":delegate");
-            }
-            else
-            {
-                var team = event.request.intent.slots.team.value;
-                const date  = event.request.intent.slots.date.value;
-
-                this.emit(":tell","Le score de "+team+" pour le "+date)
-            }
-          
-    }*/  
         'AMAZON.HelpIntent': function () {
             const speechOutput = HELP_MESSAGE;
             const reprompt = HELP_REPROMPT;
@@ -207,6 +218,15 @@ function buildHandlers(event) {
             this.response.speak(STOP_MESSAGE);
             this.emit(':responseReady');
         },
+        "SessionEndedRequest" : function(){
+            this.response.speak(STOP_MESSAGE)
+            this.emit(":responseReady")
+        },
+        "Unhandled" : function() {
+            let response = "Désolé, je n'ai pas compris !!!!<break time='0.5s'> Je peux vous fournir le résultat d'un match"+
+           "<break time='1s'>"+HELP_MESSAGE
+            this.emit(':ask',response)
+          },
     };
 
     return handlers
